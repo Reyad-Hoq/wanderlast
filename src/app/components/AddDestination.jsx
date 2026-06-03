@@ -4,9 +4,36 @@ import React, { useState } from 'react';
 
 const AddDestination = () => {
   const [isPending, setIsPending] = useState(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {      // Simulate API call delay
+      const formData = new FormData(e.currentTarget);
+      const destinationData = Object.fromEntries(formData.entries());
+      console.log('Submitting Destination:', destinationData);
+      setIsPending(true);
+      const res = await fetch('http://localhost:8000/destinations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(destinationData)
+      });
+      const data = await res.json();
+      console.log('Response from server:', data);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      alert(`Destination "${destinationData.destinationName}" added successfully!`);
+    } catch (error) {
+      alert('Failed to add destination. Please try again. error: ' + error.message);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return (
-    <div>
+    <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg">
       <form
+        onSubmit={onSubmit}
         className="p-10 space-y-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
