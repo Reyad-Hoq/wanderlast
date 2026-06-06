@@ -1,7 +1,7 @@
 'use client'
 import { TextField, Label, Input, FieldError, Select, ListBox, TextArea, Button } from '@heroui/react';
 import React, { useState } from 'react';
-
+import { ToastContainer, toast } from 'react-toastify';
 const AddDestination = () => {
   const [isPending, setIsPending] = useState(false);
 
@@ -20,11 +20,10 @@ const AddDestination = () => {
         body: JSON.stringify(destinationData)
       });
       const data = await res.json();
-      console.log('Response from server:', data);
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      alert(`Destination "${destinationData.destinationName}" added successfully!`);
+      toast.success(`Destination "${destinationData.destinationName}" added successfully!`);
     } catch (error) {
-      alert('Failed to add destination. Please try again. error: ' + error.message);
+      toast.error('Failed to add destination. Please try again. error: ' + error.message);
     } finally {
       setIsPending(false);
     }

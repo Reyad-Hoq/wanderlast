@@ -1,5 +1,10 @@
+import DeleteAlert from '@/app/components/DeleteAlert';
+import EditModalForm from '@/app/components/EditModalForm';
+import { Button } from '@heroui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
+import { BiEditAlt, BiLeftArrow } from 'react-icons/bi';
 import { LuMapPin } from 'react-icons/lu';
 
 const DestinationDetailPage = async ({ params }) => {
@@ -9,6 +14,18 @@ const DestinationDetailPage = async ({ params }) => {
   console.log(destination);
   return (
     <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-6">
+
+      <div className="flex items-center justify-between mb-4">
+        <Link href="/destinations">
+          <Button variant="outline" color="primary" size="md" className="mb-4">
+            <BiLeftArrow />Destinations
+          </Button>
+        </Link>
+        <div className="flex items-center gap-2">
+          <EditModalForm destination={destination} />
+          <DeleteAlert destination={destination} />
+        </div>
+      </div>
       <div className="flex items-center justify-center object-contain h-96 w-full relative mb-4">
         <Image
           className="w-full h-full object-cover"
